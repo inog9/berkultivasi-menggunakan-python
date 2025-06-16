@@ -1,0 +1,16 @@
+# config.yaml
+splunk:
+  host: splunk.example.com
+  port: 8089
+  username: hunter
+  password: hunter_password
+hunt:
+  ioc_feed_url: https://threat-feed.example.com/iocs.json
+  searches:
+    - name: "Rare PowerShell Invocations"
+      query: 'search index=windows sourcetype=powershell | stats count BY user, CommandLine | where count < 5'
+    - name: "Recent External DNS Queries"
+      query: 'search index=dns sourcetype=dns_query | stats count BY query_name | where query_name!="internal.company.local"'
+  alert_threshold: 0   # number of results above which to alert
+notification:
+  slack_webhook: https://hooks.slack.com/services/XXX/YYY/ZZZ
